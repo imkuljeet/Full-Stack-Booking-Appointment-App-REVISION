@@ -4,8 +4,6 @@ const cors = require("cors");
 
 const sequelize = require("./util/database");
 
-const User = require('./models/User');
-
 const shopRoutes = require('./routes/user');
 
 const app = express();
@@ -18,7 +16,7 @@ app.use(shopRoutes);
 
 sequelize
   .sync()
-  .then((result) => {
+  .then(() => {
     app.listen(3000);
   })
   .catch((err) => {
