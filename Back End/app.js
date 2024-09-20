@@ -36,6 +36,24 @@ app.get('/giveAllData', async (req, res, next) => {
   }
 });
 
+app.delete('/delete-user/:id', async (req, res) => {
+  try {
+    if (!req.params.id) {
+      console.log("Id is missing");
+      return res.status(400).json({ err: 'Id is missing' }); // Return a response and exit the function
+    }
+    
+    const uId = req.params.id;
+    console.log("UID IS ",uId);
+    await User.destroy({ where: { id: uId } });
+
+    res.status(200).json({ message: 'User deleted successfully' }); // Sending a success response
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 sequelize
   .sync()

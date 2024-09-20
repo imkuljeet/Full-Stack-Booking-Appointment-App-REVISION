@@ -49,6 +49,8 @@
         function showOnScreen(obj){
             let ul = document.getElementById("listt");
             let li = document.createElement('li');
+            li.id = obj.id;
+            const userId = obj.id;
 
             let delBtn = document.createElement('button');
             delBtn.innerText = 'Delete';
@@ -65,8 +67,13 @@
             ul.appendChild(li);
 
             delBtn.addEventListener('click',()=>{
+                axios.delete(`http://localhost:3000/delete-user/${userId}`)
+            .then((res) => {
                 ul.removeChild(li);
+            }).catch((err) => {
+                console.log(err);
             })
+            });
 
             editBtn.addEventListener('click',()=>{
                 document.getElementById('username').value = obj.name;
