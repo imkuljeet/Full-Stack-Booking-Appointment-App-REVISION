@@ -19,8 +19,6 @@
         <button type="submit">SUBMIT</button>
     </form>
 
-    <ul id="listt"></ul>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
 
     <script>
@@ -32,12 +30,10 @@
             let email = event.target.email.value;
 
             let obj = {
-                name : username,
+                username : username,
                 phn : phn,
                 email : email
             }
-
-            showOnScreen(obj);
 
             axios.post("http://localhost:3000/",obj).then(res =>{
                 console.log(res);
@@ -45,40 +41,6 @@
                 console.log(err);
             })
         }
-
-        function showOnScreen(obj){
-            let ul = document.getElementById("listt");
-            let li = document.createElement('li');
-
-            let delBtn = document.createElement('button');
-            delBtn.innerText = 'Delete';
-
-            let editBtn = document.createElement('button');
-            editBtn.innerText = 'Edit';
-
-            let textNode = document.createTextNode(`${obj.email} --- ${obj.name}`);
-            li.appendChild(textNode);
-            li.appendChild(document.createTextNode(' '));
-            li.appendChild(delBtn);
-            li.appendChild(document.createTextNode(' '));
-            li.appendChild(editBtn);
-            ul.appendChild(li);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-    axios.get("http://localhost:3000/giveAllData")
-        .then(res => {
-            // console.log(res.data);
-
-            for(let i=0;i<res.data.length;i++){
-                showOnScreen(res.data[i]);
-            }
-        })
-        .catch(err => {
-            console.error('Error fetching data:', err);
-        });
-});
-
     </script>
 
 </body>
