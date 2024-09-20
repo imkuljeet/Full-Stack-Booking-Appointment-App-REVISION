@@ -78,9 +78,14 @@
             editBtn.addEventListener('click',()=>{
                 document.getElementById('username').value = obj.name;
                 document.getElementById('email').value = obj.email;
-                document.getElementById('phone').value = obj.phn;
+                document.getElementById('phone').value = obj.phone;
 
+                axios.delete(`http://localhost:3000/delete-user/${userId}`)
+            .then((res) => {
                 ul.removeChild(li);
+            }).catch((err) => {
+                console.log(err);
+            })
             })
 
         }
