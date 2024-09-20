@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Appt App</title>
+</head>
+<body>
+    <form onsubmit="saveToDatabase(event)">
+        <label for="username">User Name : </label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="phone">Phone No : </label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="email">Email : </label>
+        <input type="email" id="email" name="email" required>
+        
+        <button type="submit">SUBMIT</button>
+    </form>
+
+    <ul id="listt"></ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+
+    <script>
+        function saveToDatabase(event){
+            event.preventDefault();
+
+            let username = event.target.username.value;
+            let phn = event.target.phone.value;
+            let email = event.target.email.value;
+
+            let obj = {
+                name : username,
+                phn : phn,
+                email : email
+            }
+
+            showOnScreen(obj);
+
+            axios.post("http://localhost:3000/",obj).then(res =>{
+                console.log(res);
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }
+
+        function showOnScreen(obj){
+            let ul = document.getElementById("listt");
+            let li = document.createElement('li');
+
+            let delBtn = document.createElement('button');
+            delBtn.innerText = 'Delete';
+
+            let editBtn = document.createElement('button');
+            editBtn.innerText = 'Edit';
+
+            let textNode = document.createTextNode(`${obj.email} --- ${obj.name}`);
+            li.appendChild(textNode);
+            li.appendChild(document.createTextNode(' '));
+            li.appendChild(delBtn);
+            li.appendChild(document.createTextNode(' '));
+            li.appendChild(editBtn);
+            ul.appendChild(li);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+    axios.get("http://localhost:3000/giveAllData")
+        .then(res => {
+            // console.log(res.data);
+
+            for(let i=0;i<res.data.length;i++){
+                showOnScreen(res.data[i]);
+            }
+        })
+        .catch(err => {
+            console.error('Error fetching data:', err);
+        });
+});
+
+    </script>
+
+</body>
+</html>
